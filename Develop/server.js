@@ -30,7 +30,6 @@ app.post('/notes', (req, res) => {
     const { title, text } = req.body;
 
     if (title && text) {
-        
         const newFeedback = {
             title,
             text
