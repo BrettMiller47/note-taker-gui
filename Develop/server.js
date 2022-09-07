@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const shortid = require('shortid')
 
 const notes = require('./db/db.json');
 
@@ -27,12 +28,13 @@ app.get('/api/notes', (req, res) => res.json(notes));
 // -- add it to the db.json file, and then return the new note to the client.
 app.post('/notes', (req, res) => {
 
-    const { title, text } = req.body;
+    const { title, text, note } = req.body;
 
     if (title && text) {
         const newFeedback = {
             title,
-            text
+            text,
+            note_id: shortid.generate()
         };
         
         readAndAppend(newFeedback, '/db/db.json');
