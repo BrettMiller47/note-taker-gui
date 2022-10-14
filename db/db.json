@@ -1,11 +1,6 @@
 [
     {
-        "title": "Test Title",
-        "text": "Test text"
-    },
-    {
-        "title": "added",
-        "text": "added",
-        "note_id": "rwuNJfaSJ"
+        "title": "Seed",
+        "text": "This note appears from the original GET request!"
     }
 ]
