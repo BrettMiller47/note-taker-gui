@@ -4,8 +4,6 @@ const shortid = require('shortid')
 const util = require('util');
 const path = require('path');
 
-const notes = require('./db/db.json');
-
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -18,7 +16,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
-// ! GET /notes should return the notes.html
+// GET /notes should return the notes.html
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
@@ -31,6 +29,17 @@ const readFromFile = util.promisify(fs.readFile);
 app.get('/api/notes', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
+
+/**
+ *  Function to write data to the JSON file given a destination and some content
+ *  @param {string} destination The file you want to write to.
+ *  @param {object} content The content you want to write to the file.
+ *  @returns {void} Nothing
+ */
+const writeToFile = (destination, content) =>
+  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
+    err ? console.error(err) : console.info(`\nData written to ${destination}`)
+  );
 
 /**
  *  Function to read data from a given a file and append some content
@@ -62,7 +71,7 @@ app.post('/api/notes', (req, res) => {
             note_id: shortid.generate()
         };
 
-        readAndAppend(newFeedback, '/db/db.json');
+        readAndAppend(newFeedback, 'db/db.json');
         const response = {
             status: 'success',
             body: newFeedback,
